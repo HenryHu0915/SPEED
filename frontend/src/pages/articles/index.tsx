@@ -1,74 +1,58 @@
+// UserView.tsx
+
 import { GetStaticProps, NextPage } from "next";
-import SortableTable from "../../components/table/SortableTable";
 import axios from "axios";
+import SortableTable from "../../components/table/SortableTable";
 import styles from "./UserView.module.scss";
 
-
-interface ArticlesInterface {
-    id: string;
-    title: string;
-    authors: string;
-    source: string;
-    publication_year: string;
-    doi: string;
-    SE_practice: string;
-    claim: string;
-    averageRating: string;
-    approved: boolean;
+interface Article {
+  id: string;
+  title: string;
+  authors: string;
+  source: string;
+  publication_year: string;
+  doi: string;
+  SE_practice: string;
+  claim: string;
+  averageRating: string;
+  approved: boolean;
 }
 
 type ArticlesProps = {
-  articles: ArticlesInterface[];
+  articles: Article[];
 };
 
 const Articles: NextPage<ArticlesProps> = ({ articles }) => {
-    const headers: { key: keyof ArticlesInterface; label: string }[] = [
-        { key: "title", label: "Title" },
-        { key: "authors", label: "Authors" },
-        { key: "source", label: "Source" },
-        { key: "publication_year", label: "Publication Year" },
-        { key: "doi", label: "DOI" },
-        { key: "SE_practice", label: "SE Practice" },
-        { key: "claim", label: "Claim" },
-        { key: "averageRating", label: "Rating" },
-    ];
+  const headers = [
+    { key: "title", label: "Title" },
+    { key: "authors", label: "Authors" },
+    { key: "source", label: "Source" },
+    { key: "publication_year", label: "Publication Year" },
+    { key: "doi", label: "DOI" },
+    { key: "SE_practice", label: "SE Practice" },
+    { key: "claim", label: "Claim" },
+    { key: "averageRating", label: "Rating" },
+  ];
 
-    return (
-        <div className={styles.container}>
-            <h1>SPEED Articles</h1>
-            <p>Search Placeholder</p>
-            <SortableTable headers={headers} data={articles} />
-        </div>
-    );
+  return (
+    <div className={styles.container}>
+      <h1>SPEED Articles</h1>
+      <p>Search Placeholder</p>
+      <SortableTable headers={headers} data={articles} />
+    </div>
+  );
 };
 
-export const getStaticProps: GetStaticProps<ArticlesProps> = async (_) => {
+export const getStaticProps: GetStaticProps<ArticlesProps> = async () => {
   try {
-    // Fetch articles from the API endpoint
-    const response = await axios.get("https://speed-backend-git-testing-leo-r-jia.vercel.app/api/articles");
+    const response = await axios.get("https://api-url.com/api/articles");
+    const articles: Article[] = response.data.filter((article: Article) => article.approved);
 
-    // Extract the articles from the API response data
-    const articles: ArticlesInterface[] = response.data;
-
-    // Filter the articles to only include approved ones
-    const approvedArticles = articles.filter((article) => article.approved === true);
-
-    return {
-      props: {
-        articles: approvedArticles,
-      },
-    };
+    return { props: { articles } };
   } catch (error) {
-    console.error("Error fetching data from the API:", error);
-    return {
-      props: {
-        articles: [],
-      },
-    };
+    console.error("API data fetch error:", error);
+    return { props: { articles: [] } };
   }
 };
 
-
-
-
-export default Articles; 
+export default Articles;
