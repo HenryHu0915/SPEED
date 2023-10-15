@@ -1,126 +1,188 @@
-// moderator.tsx
+import { FormEvent, useState } from "react";
+import formStyles from "../../styles/Form.module.scss";
 
-import { GetStaticProps, NextPage } from "next";
-import data from "../../utils/dummydata.json";
-import ModeratorSortableTable from "../../components/table/ModeratorSortableTable";
-import { useState } from "react";
-import axios from "axios";
-import ColumnDropdown from "./ColumnDropdown";
-import styles from "./ModeratorView.module.scss";
+const NewDiscussion = () => {
+    const [title, setTitle] = useState("");
+    const [authors, setAuthors] = useState<string[]>([]);
+    const [source, setSource] = useState("");
+    const [pubYear, setPubYear] = useState<number | "">(0);
+    const [doi, setDoi] = useState("");
+    const [summary, setSummary] = useState("");
+    const [SE_practice, setSePractice] = useState("");
+    const [claim, setClaim] = useState("");
 
-interface ArticlesInterface {
-  id: string;
-  title: string;
-  authors: string;
-  source: string;
-  publication_year: string;
-  doi: string;
-  SE_practice: string;
-  claim: string;
-  evidence: string;
-  approved: boolean;
-  rejected: boolean;
-}
+    const submitNewArticle = async (event: FormEvent) => {
+        event.preventDefault();
+        const articleData = {
+            title,
+            authors,
+            source,
+            publication_year: pubYear,
+            doi,
+            summary,
+            SE_practice,
+            claim,
+            linked_discussion: "",
+            updated_date: new Date().toISOString(),
+            ratings: [],
+            average_rating: null,
+            total_ratings: 0,
+            approved: false,
+            rejected: false,
+            evidence: null,
+        };
 
-type ArticlesProps = {
-  articles: ArticlesInterface[];
-};
+        try {
+            const response = await fetch('/api/articles/createArticle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(articleData),
+            });
 
-const Articles: NextPage<ArticlesProps> = ({ articles }) => {
-  const approvedArticles = articles.filter(article => article.approved === true);
-  const rejectedArticles = articles.filter(article => article.rejected === true);
-  const submittedArticles = articles.filter(article => !article.approved && !article.rejected);
+            if (!response.ok) {
+                throw new Error('Failed to submit article.');
+            }
 
-  const [activeTab, setActiveTab] = useState('submitted');
+            alert('Article submitted successfully!');
+            resetForm();
+        } catch (error) {
+            alert('Error submitting article');
+        }
+    };
 
-  const [selectedColumns, setSelectedColumns] = useState<string[]>([
-    "id", "title", "authors", "source", "publication_year",
-    "doi", "SE_practice", "claim", "evidence", "approved", "rejected"
-  ]);
+    const resetForm = () => {
+        setTitle("");
+        setAuthors([]);
+        setSource("");
+        setPubYear(0);
+        setDoi("");
+        setSummary("");
+        setSePractice("");
+        setClaim("");
+    };
 
-  const headers: { key: keyof ArticlesInterface; label: string }[] = [
-    { key: "title", label: "Title" },
-    { key: "authors", label: "Authors" },
-    { key: "source", label: "Source" },
-    { key: "publication_year", label: "Publication Year" },
-    { key: "doi", label: "DOI" },
-    { key: "SE_practice", label: "SE Practice" },
-    { key: "claim", label: "Claim" },
-    { key: "evidence", label: "Result of Evidence" },
-  ];
+    const addAuthor = () => setAuthors([...authors, ""]);
+    const removeAuthor = (index: number) => setAuthors(authors.filter((_, i) => i !== index));
+    const changeAuthor = (index: number, value: string) => setAuthors(authors.map((name, i) => (i === index ? value : name)));
 
-  return (
-    <div className={styles.container}>
-      <h1>SPEED Moderator Dashboard</h1>
+    return (
+        <div className={formStyles.container}>
+            <h1>Submit a New Article</h1>
+            <form className={formStyles.form} onSubmit={submitNewArticle}>
+                <label htmlFor="title">Title:</label>
+                <input
+                    className={formStyles.formItem}
+                    type="text"
+                    name="title"
+                    id="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                />
 
-      <ColumnDropdown
-        options={headers.map((header) => ({
-          key: header.key,
-          label: header.label,
-        }))}
-        selectedOptions={selectedColumns}
-        onSelect={(selected) => setSelectedColumns(selected)}
-      />
+                <label htmlFor="author">Authors:</label>
+                {authors.map((author, index) => (
+                    <div key={`author-${index}`} className={formStyles.arrayItem}>
+                        <input
+                            type="text"
+                            name="author"
+                            value={author}
+                            onChange={(e) => changeAuthor(index, e.target.value)}
+                            className={formStyles.formItem}
+                            required
+                        />
+                        <button
+                            onClick={() => removeAuthor(index)}
+                            className={formStyles.buttonItem}
+                            style={{ marginLeft: "3rem" }}
+                            type="button"
+                        >
+                            -
+                        </button>
+                    </div>
+                ))}
+                <button
+                    onClick={addAuthor}
+                    className={formStyles.buttonItem}
+                    type="button"
+                >
+                    +
+                </button>
 
-      <button onClick={() => setActiveTab('submitted')}>Submitted</button>
-      <button onClick={() => setActiveTab('approved')}>Approved</button>
-      <button onClick={() => setActiveTab('rejected')}>Rejected</button>
-      <button onClick={() => setActiveTab('all')}>All</button>
+                <label htmlFor="source">Source:</label>
+                <input
+                    className={formStyles.formItem}
+                    type="text"
+                    name="source"
+                    id="source"
+                    value={source}
+                    onChange={(e) => setSource(e.target.value)}
+                    required
+                />
 
-      {activeTab === 'submitted' && (
-        <ModeratorSortableTable
-          headers={headers.filter((header) => selectedColumns.includes(header.key))}
-          data={submittedArticles}
-        />
-      )}
-      {activeTab === 'approved' && (
-        <ModeratorSortableTable
-          headers={headers.filter((header) => selectedColumns.includes(header.key))}
-          data={approvedArticles}
-        />
-      )}
-      {activeTab === 'rejected' && (
-        <ModeratorSortableTable
-          headers={headers.filter((header) => selectedColumns.includes(header.key))}
-          data={rejectedArticles}
-        />
-      )}
-      {activeTab === 'all' && (
-        <ModeratorSortableTable
-          headers={headers.filter((header) => selectedColumns.includes(header.key))}
-          data={articles}
-        />
-      )}
-    </div>
-  );
-};
+                <label htmlFor="pubYear">Publication Year:</label>
+                <input
+                    className={formStyles.formItem}
+                    type="number"
+                    name="pubYear"
+                    id="pubYear"
+                    value={pubYear}
+                    onChange={(e) => setPubYear(parseInt(e.target.value, 10))}
+                    required
+                />
 
-export const getStaticProps: GetStaticProps<ArticlesProps> = async (_) => {
+                <label htmlFor="doi">DOI:</label>
+                <input
+                    className={formStyles.formItem}
+                    type="text"
+                    name="doi"
+                    id="doi"
+                    value={doi}
+                    onChange={(e) => setDoi(e.target.value)}
+                    required
+                />
 
-  // Map the data to ensure all articles have consistent property names 
+                <label htmlFor="summary">Summary:</label>
+                <textarea
+                    className={formStyles.formTextArea}
+                    name="summary"
+                    id="summary"
+                    value={summary}
+                    onChange={(e) => setSummary(e.target.value)}
+                    required
+                />
 
-  try {
-    // Fetch articles from the API endpoint
-    const response = await axios.get(
-      "https://speed-backend-git-testing-leo-r-jia.vercel.app/api/articles"
+                <label htmlFor="SE_practice">Method/practice:</label>
+                <input
+                    className={formStyles.formItem}
+                    type="text"
+                    name="SE_practice"
+                    id="SE_practice"
+                    value={SE_practice}
+                    onChange={(e) => setSePractice(e.target.value)}
+                    required
+                />
+
+                <label htmlFor="claim">Claim:</label>
+                <input
+                    className={formStyles.formItem}
+                    type="text"
+                    name="claim"
+                    id="claim"
+                    value={claim}
+                    onChange={(e) => setClaim(e.target.value)}
+                    required
+                />
+
+                <button className={formStyles.formItem} type="submit">
+                    Submit
+                </button>
+            </form>
+        </div>
     );
-
-    // Extract the articles from the API response data
-    const articles: ArticlesInterface[] = response.data;
-
-    return {
-      props: {
-        articles,
-      },
-    };
-  } catch (error) {
-    console.error("Error fetching data from the API:", error);
-    return {
-      props: {
-        articles: [],
-      },
-    };
-  }
 };
 
-export default Articles;
+export default NewDiscussion;
