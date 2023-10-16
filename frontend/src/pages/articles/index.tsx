@@ -45,7 +45,7 @@ const Articles: NextPage<ArticlesProps> = ({ articles }) => {
 
 export const getStaticProps: GetStaticProps<ArticlesProps> = async () => {
   try {
-    const response = await axios.get("https://api-url.com/api/articles");
+    const response = await axios.get("https://speed-1-notreallybenjamins-projects.vercel.app/api/articles", {responseType: 'document'});
     const articles: Article[] = response.data.filter((article: Article) => article.approved);
 
     return { props: { articles } };
