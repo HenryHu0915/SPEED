@@ -29,6 +29,7 @@ const Articles: NextPage<ArticlesProps> = ({ articles }) => {
     "id", "title", "authors", "source", "publication_year",
     "doi", "SE_practice", "claim", "evidence", "approved", "rejected"
   ]);
+  console.log("Hello");
 
   const headers = [
     { key: "title", label: "Title" },
@@ -61,11 +62,13 @@ const Articles: NextPage<ArticlesProps> = ({ articles }) => {
 
 export const getStaticProps: GetStaticProps<ArticlesProps> = async () => {
   try {
-    const response = await axios.get("https://your-api-endpoint/api/articles");
+    console.log("okay 1");
+    const response = await axios.get("https://speed-1-notreallybenjamins-projects.vercel.app/api/articles", {responseType: 'document'});
     const articles: Article[] = response.data;
     return { props: { articles } };
   } catch (error) {
     console.error("API data fetch error:", error);
+    console.log("okay 2");
     return { props: { articles: [] } };
   }
 };

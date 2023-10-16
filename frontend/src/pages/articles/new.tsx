@@ -33,7 +33,8 @@ const NewDiscussion = () => {
         };
 
         try {
-            const response = await fetch('/api/articles/createArticle', {
+            console.log("test 1");
+            const response = await fetch('https://https://speed-1-notreallybenjamins-projects.vercel.app/api/articles/createArticle', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
