@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import approveArticle from './approveArticle';
 import { connectToDatabase } from "../../config/db";
 import { ArticleModel } from '../../src/articles/article.model';
