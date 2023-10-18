@@ -180,7 +180,7 @@ export const getStaticProps: GetStaticProps<ArticlesProps> = async (_) => {
   try {
     // Fetch articles from the API endpoint
     const response = await axios.get(
-      "https://speed-backend-git-testing-leo-r-jia.vercel.app/api/articles"
+      "https://speed-1-backend-o3zc1j3ps-notreallybenjamins-projects.vercel.app/api/articles"
     );
 
     // Extract the articles from the API response data

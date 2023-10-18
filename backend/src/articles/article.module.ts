@@ -3,16 +3,13 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ArticleController } from './article.controller';
 import { ArticleService } from './article.service';
-import { ArticleModel } from './article.model';
+import { ArticleSchema } from './article.model';
 
 @Module({
   imports: [
-    //MongooseModule.forFeature([{ name: 'Article', schema: ArticleSchema }])
+    MongooseModule.forFeature([{ name: 'Article', schema: ArticleSchema }])
   ],
   controllers: [ArticleController],
-  providers: [ArticleService,
-    { provide: "Article", useValue: ArticleModel }
-  ],
-  
+  providers: [ArticleService],
 })
 export class ArticleModule {}

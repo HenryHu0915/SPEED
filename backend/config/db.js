@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-const mongoose = require('mongoose');
-const config = require('config');
+import * as mongoose from 'mongoose';
+import * as config from 'config';
 //const db = config.get('mongoURI');
 //const db = process.env.MONGODB_URI;
 

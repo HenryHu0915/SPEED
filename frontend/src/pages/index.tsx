@@ -3,4 +3,4 @@ export default function Home() {
         <div className="continer">
         </div>
     );
-} 
+}
