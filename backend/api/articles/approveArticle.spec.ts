@@ -3,8 +3,8 @@ import approveArticle from './approveArticle';
 import { connectToDatabase } from "../../config/db.js";
 import { ArticleModel } from '../../src/articles/article.model';
 
-jest.mock('https://speed-1-backend-o3zc1j3ps-notreallybenjamins-projects.vercel.app/config/db'); // Mock the database connection
-jest.mock('https://speed-1-backend-o3zc1j3ps-notreallybenjamins-projects.vercel.app/src/articles/article.model'); // Mock the ArticleModel
+jest.mock('../../config/db'); // Mock the database connection
+jest.mock('../../src/articles/article.model'); // Mock the ArticleModel
 
 describe('approveArticle Serverless Function', () => {
 
