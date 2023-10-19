@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { Article } from './article.model';
@@ -8,7 +9,7 @@ export class ArticleController {
 
   @Post()
   async createArticle(@Body() articleDto: Partial<Article>): Promise<Article> {
-    return this.articleService.createArticle(articleDto);
+    return this.articleService.createArticle(articleDto); 
   }
 
   @Get()

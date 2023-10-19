@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Schema, Document, model } from 'mongoose';
 
 export interface Article extends Document {

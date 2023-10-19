@@ -1,4 +1,5 @@
 import { FormEvent, useState } from "react";
+
 import formStyles from "../../styles/Form.module.scss";
 
 const NewDiscussion = () => {
@@ -33,7 +34,8 @@ const NewDiscussion = () => {
         };
 
         try {
-            const response = await fetch('/api/articles/createArticle', {
+            console.log("test 1");
+            const response = await fetch('https://speed-1-backend-o3zc1j3ps-notreallybenjamins-projects.vercel.app/api/articles/createArticle', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

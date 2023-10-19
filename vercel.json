@@ -1,0 +1,10 @@
+{
+    "name": "speed-1",
+    "root": "backend",
+    "builds": [
+      {
+        "src": "backend/**/*",
+        "use": "@vercel/node"
+      }
+    ]
+  }
