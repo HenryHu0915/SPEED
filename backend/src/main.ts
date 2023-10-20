@@ -16,7 +16,7 @@ const vercelURL = 'https://speed-1-frontend-depo55qng-notreallybenjamins-project
   async function bootstrap() {
     const app = await NestFactory.create(AppModule, new ExpressAdapter());
 
-    app.enableCors(CORS_OPTIONS);
+    app.enableCors(/*CORS_OPTIONS*/);
 
     await app.listen(3001); // You can specify the port you want to listen on
 
