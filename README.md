@@ -8,5 +8,5 @@ Features:
   Performance Optimized: Enjoy lightning-fast load times and responsive interactions.
 
 Get Started:
-  To begin using SPEED, simply sign up and dive into a world of quality articles. Whether you're a reader or a writer, there's something for everyone!
+  Dive into a world of quality articles. Whether you're a reader or a writer, there's something for everyone!
 
