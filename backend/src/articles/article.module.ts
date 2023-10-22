@@ -7,6 +7,7 @@ import { ArticleSchema } from './article.model';
 
 @Module({
   imports: [
+    MongooseModule.forRoot('mongodb+srv://benjaminmatthews794:123abc@cluster0.croouva.mongodb.net/Test?retryWrites=true&w=majority'),
     MongooseModule.forFeature([{ name: 'Article', schema: ArticleSchema }])
   ],
   controllers: [ArticleController],

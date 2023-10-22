@@ -1,42 +1,64 @@
 /* eslint-disable prettier/prettier */
-import { Schema, Document, model } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Expose, Transform } from 'class-transformer';
+import { Document, ObjectId, Types, model } from 'mongoose';
 
-export interface Article extends Document {
+@Schema()
+export class Article extends Document {
+  @Expose()
+  @Transform((params) => params.obj._id.toString())
+  _id: ObjectId;
+
+  id: string;
+
+  @Prop({ required: true })
   title: string;
+
+  @Prop([String])
   authors: string[];
+
+  @Prop({ required: true })
   source: string;
+
+  @Prop({ required: true })
   publication_year: number;
+
+  @Prop()
   doi: string;
+
+  @Prop()
   summary: string;
+
+  @Prop()
   linked_discussion: string;
+
+  @Prop({ default: Date.now })
   updated_date: Date;
-  ratings: number[];  // Array of individual ratings
-  averageRating: number; // Average of all ratings
-  totalRatings: number;  // Total number of ratings given
+
+  @Prop([Number])
+  ratings: number[];
+
+  @Prop({ default: 0 })
+  averageRating: number;
+
+  @Prop({ default: 0 })
+  totalRatings: number;
+
+  @Prop({ default: false })
   approved: boolean;
+
+  @Prop({ default: false })
   rejected: boolean;
+
+  @Prop()
   SE_practice: string;
+
+  @Prop()
   claim: string;
+
+  @Prop()
   evidence: string;
 }
 
-export const ArticleSchema = new Schema({
-  title: { type: String, required: true },
-  authors: { type: [String] },
-  source: { type: String, required: true },
-  publication_year: { type: Number, required: true },
-  doi: { type: String },
-  summary: { type: String },
-  linked_discussion: { type: String },
-  updated_date: { type: Date, default: Date.now },
-  ratings: [Number], 
-  averageRating: { type: Number, default: 0 },
-  totalRatings: { type: Number, default: 0 },
-  approved: { type: Boolean, default: false }, // default to false if not provided
-  rejected: { type: Boolean, default: false }, // default to false if not provided
-  SE_practice: { type: String },
-  claim: { type: String },
-  evidence: { type: String }
-});
-
+export const ArticleSchema = SchemaFactory.createForClass(Article);
 export const ArticleModel = model<Article>('Article', ArticleSchema);
