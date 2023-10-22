@@ -100,7 +100,7 @@ export const getServerSideProps: GetServerSideProps<ArticlesProps> = async (_) =
   try {
     // Fetch articles from the API endpoint
     const response = await axios.get(
-      "https://speed-1-backend-sigma.vercel.app/articles"
+      "https://speed-1-backend-sigma.vercel.app/src/articles"
     );
 
     // Extract the articles from the API response data
