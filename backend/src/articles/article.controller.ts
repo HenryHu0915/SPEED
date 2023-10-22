@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Post, Body, Get, Query, Options, SerializeOptions } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, Options } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { Article } from './article.model';
 
@@ -8,14 +8,14 @@ export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
 
   @Post()
-  async createArticle(@Body() articleDto: Partial<Article>): Promise<boolean> {
-    const article = await this.articleService.createArticle(articleDto); 
+  async createNewArticle(@Body() articleData: Partial<Article>): Promise<boolean> {
+    const article = await this.articleService.createNewArticle(articleData); 
     return true;
   }
 
   @Get()
-  async getAllArticles() {
-    return await this.articleService.getAllArticles();
+  async getAllPublishedArticles() {
+    return await this.articleService.getAllPublishedArticles();
   }
 
   @Options()
@@ -24,8 +24,8 @@ export class ArticleController {
   }
 
   @Get('search')
-  async findArticlesByTitle(@Query('keyword') keyword: string) {
-    return await this.articleService.findArticlesByTitle(keyword);
+  async findArticlesById(@Query('keyword') keyword: string) {
+    return await this.articleService.findArticlesById(keyword);
   }
 
 

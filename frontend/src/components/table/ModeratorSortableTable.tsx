@@ -34,7 +34,7 @@ const handleApprove = async (index: number) => {
   try {
     // Send a POST request to the server to approve the article
     const response = await axios.post(
-      `https://speed-1-backend-sigma.vercel.app/src/articles/approveArticle?_id=${article.id}`, // Use '_id' field in the URL
+      `https://speed-1-backend-chi.vercel.app/articles/approveArticle?_id=${article.id}`, // Use '_id' field in the URL
       { "approved": true }
     );
     // Log the response for debugging
@@ -54,7 +54,7 @@ const handleReject = async (index: number) => {
   try {
     // Send a POST request to the server to reject the article
     const response = await axios.post(
-      `https://speed-1-backend-sigma.vercel.app/src/articles/rejectArticle?_id=${article.id}`, // Use '_id' field in the URL
+      `https://speed-1-backend-chi.vercel.app/articles/rejectArticle?_id=${article.id}`, // Use '_id' field in the URL
       { "rejected": true }
     );
     // Log the response for debugging

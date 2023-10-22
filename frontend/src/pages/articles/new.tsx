@@ -35,7 +35,7 @@ const NewDiscussion = () => {
             evidence: null,*/
         };
         try {
-            const response = await fetch("https://speed-1-backend-sigma.vercel.app/articles", {
+            const response = await fetch("https://speed-1-backend-chi.vercel.app/articles", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

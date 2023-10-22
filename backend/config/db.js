@@ -2,7 +2,7 @@
 import * as mongoose from 'mongoose';
 import * as config from 'config';
 
-const isLocal = true; //process.env.VERCEL_ENV === 'development';
+const isLocal = true;
 const db = isLocal ? config.get('mongoURI') : process.env.MONGODB_URI;
 
 
@@ -17,7 +17,7 @@ const connectDB = async () => {
             dbName: "Speed"
         });
 
-        console.log('MongoDB is Connected...');
+        console.log('Connected to MongoDB');
     } catch (err) {
         console.error(err.message);
         process.exit(1);
@@ -39,7 +39,4 @@ export async function connectToDatabase() {
     return dbInstance;
 }
 
-module.exports = {
-    connectDB,
-    connectToDatabase
-};
+module.exports = { connectDB, connectToDatabase };
