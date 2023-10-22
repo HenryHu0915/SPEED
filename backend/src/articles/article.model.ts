@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Expose, Transform } from 'class-transformer';
-import { Document, ObjectId, Types, model } from 'mongoose';
+import { Document, ObjectId, model } from 'mongoose';
 
 @Schema()
 export class Article extends Document {

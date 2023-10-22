@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 import { ExpressAdapter } from '@nestjs/platform-express/adapters/express-adapter';
 import { ClassSerializerInterceptor } from '@nestjs/common';
 
-const vercelURL = 'https://speed-1-frontend.vercel.app/';
+const vercelURL = 'https://speed-1-frontend-chi.vercel.app/';
 
   const CORS_OPTIONS = {
     origin: '*', 

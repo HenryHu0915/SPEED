@@ -44,7 +44,7 @@ const Articles: NextPage<ArticlesProps> = ({ articles }) => {
 
 export const getServerSideProps: GetServerSideProps<ArticlesProps> = async () => {
   try {
-    const response = await axios("https://speed-1-frontend.vercel.app/articles");
+    const response = await axios("https://speed-1-backend-chi.vercel.app/articles");
     const articles: Article[] = response.data.filter((article: Article) => article.approved);
 
     return { props: { articles } };
