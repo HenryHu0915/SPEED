@@ -1,5 +1,5 @@
+import axios from 'axios';
 import { FormEvent, useState } from "react";
-
 import formStyles from "../../styles/Form.module.scss";
 
 const NewDiscussion = () => {
@@ -14,6 +14,7 @@ const NewDiscussion = () => {
 
     const submitNewArticle = async (event: FormEvent) => {
         event.preventDefault();
+        
         const articleData = {
             title,
             authors,
@@ -22,37 +23,17 @@ const NewDiscussion = () => {
             doi,
             summary,
             SE_practice,
-            claim,
-            linked_discussion: "",
-            updated_date: new Date().toISOString(),
-            ratings: [],
-            average_rating: null,
-            total_ratings: 0,
-            approved: false,
-            rejected: false,
-            evidence: null,
+            claim
         };
 
-        try {
-            console.log("test 1");
-            const response = await fetch('https://speed5102-backend.vercel.app/api/articles/createArticle', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(articleData),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to submit article.');
-            }
-
+        axios.post('https://speed5102-backend.vercel.app/api/articles/createArticle', articleData)
+        .then(response => {
             alert('Article submitted successfully!');
             resetForm();
-        } catch (error) {
+        })
+        .catch(error => {
             alert('Error submitting article');
-        }
+        });
     };
 
     const resetForm = () => {
