@@ -1,6 +1,6 @@
 // UserView.tsx
 
-import { GetStaticProps, NextPage } from "next";
+import { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import axios from "axios";
 import SortableTable from "../../components/table/SortableTable";
 import styles from "./UserView.module.scss";
@@ -43,9 +43,9 @@ const Articles: NextPage<ArticlesProps> = ({ articles }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps<ArticlesProps> = async () => {
+export const getServerSideProps: GetServerSideProps<ArticlesProps> = async () => {
   try {
-    const response = await axios("https://speed-1-backend-o3zc1j3ps-notreallybenjamins-projects.vercel.app/api/articles");
+    const response = await axios("https://speed-1-frontend-chi.vercel.app/articles");
     const articles: Article[] = response.data.filter((article: Article) => article.approved);
 
     return { props: { articles } };
