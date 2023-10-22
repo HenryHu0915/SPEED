@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-
+import axios from 'axios';
 import formStyles from "../../styles/Form.module.scss";
 
 const NewDiscussion = () => {
@@ -14,6 +14,7 @@ const NewDiscussion = () => {
 
     const submitNewArticle = async (event: FormEvent) => {
         event.preventDefault();
+
         const articleData = {
             title,
             authors,
@@ -24,18 +25,17 @@ const NewDiscussion = () => {
             SE_practice,
             claim,
             linked_discussion: "",
+            /*
             updated_date: new Date().toISOString(),
             ratings: [],
             average_rating: null,
             total_ratings: 0,
             approved: false,
             rejected: false,
-            evidence: null,
+            evidence: null,*/
         };
-
         try {
-            console.log("test 1");
-            const response = await fetch('hhttps://speed-1-frontend-chi.vercel.app/articles/createArticle', {
+            const response = await fetch("https://speed-1-backend-chi.vercel.app/articles", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -54,6 +54,8 @@ const NewDiscussion = () => {
             alert('Error submitting article');
         }
     };
+
+
 
     const resetForm = () => {
         setTitle("");

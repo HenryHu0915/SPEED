@@ -32,7 +32,6 @@ const refreshData =async () => {
 const handleApprove = async (index: number) => {
   const article = data[index];
   try {
-    console.log(article);
     // Send a POST request to the server to approve the article
     const response = await axios.post(
       `https://speed-1-backend-chi.vercel.app/articles/approveArticle?_id=${article.id}`, // Use '_id' field in the URL
@@ -40,9 +39,8 @@ const handleApprove = async (index: number) => {
     );
     // Log the response for debugging
     console.log('Approve Response:', response);
-    window.alert("Approved, refreshing data...")
     // Update the article in the state with the data returned by the server
-    await refreshData();
+    data[index] = response.data;
     setExpandedRowIndex(null);
   } catch (error) {
     // Log the error for debugging
@@ -62,8 +60,7 @@ const handleReject = async (index: number) => {
     // Log the response for debugging
     console.log('Reject Response:', response);
     // Update the article in the state with the data returned by the server
-    window.alert("Rejected, refreshing data...")
-    await refreshData();
+    data[index] = response.data;
     setExpandedRowIndex(null);
   } catch (error) {
     // Log the error for debugging
