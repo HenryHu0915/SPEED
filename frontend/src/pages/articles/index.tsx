@@ -37,7 +37,6 @@ const Articles: NextPage<ArticlesProps> = ({ articles }) => {
   return (
     <div className={styles.container}>
       <h1>SPEED Articles</h1>
-      <p>Search Placeholder</p>
       <SortableTable headers={headers} data={articles} />
     </div>
   );
